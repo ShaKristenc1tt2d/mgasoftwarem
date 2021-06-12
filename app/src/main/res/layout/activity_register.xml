@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:context="com.idsmanager.nativeappdemo.activity.RegisterActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#F9F9F9">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="取消"
+            android:textColor="#23A7F1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="注册"
+            android:textColor="#23A7F1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#e5e5e5" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/tv_native_app_register_hint_1"
+            android:textColor="#686868"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/tv_native_app_register_hint_2"
+            android:textColor="#686868"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/bg_edit_text"
+            android:hint="用户名"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/hint_gray"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_user_psw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_edit_text"
+            android:hint="密码"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/hint_gray"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_user_psw_re"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_edit_text"
+            android:hint="重复密码"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/hint_gray"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_achieve"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_following1"
+            android:gravity="center"
+            android:text="完成"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="@string/tv_native_app_company_name" />
+
+    </LinearLayout>
+</LinearLayout>

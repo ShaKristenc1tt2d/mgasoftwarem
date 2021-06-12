@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">NativeAppDemo</string>
+    <string name="tv_native_app_login_hint_1">欢迎使用IDP应用单点登录集成demo应用。</string>
+    <string name="tv_native_app_login_hint_2">在这里，请您注册一个账号，并将使用该账号在IDP网页端创建对应的Native App的子账号。当您在您的手机端IDP身份管家尝试单点登录Native App时，即可看到单点登录的效果。</string>
+    <string name="tv_native_app_login_hint_3">本应用的代码完全开放，具体请参考我们的网站和代码。</string>
+    <string name="tv_native_app_company_name">- 北京九州云腾科技有限公司 @2016 -</string>
+    <string name="tv_native_app_register_hint_1">请您随意注册一个账号信息用作Demo。</string>
+    <string name="tv_native_app_register_hint_2">请记住您的用户名和密码，在之后您需要将其添加到IDP网页端->应用子账号。</string>
+    <string name="tv_native_app_user_info">已经使用九州云腾IDP产品提供的单点登录SDK成功登录！</string>
+
+</resources>
