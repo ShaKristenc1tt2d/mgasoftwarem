@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.idsmanager.idp2nativeapplibrary.response.InfoResponse;
@@ -33,7 +34,7 @@ public class IDP2NativeApp {
     private static final String TAG = "IDP2NativeApp";
     private static String SEPARATOR = "-";
     private static String data;
-    private static Class<?> mActivity;
+    //    private static Class<?> mActivity;
     private static Context mContext;
 
     public static String getFacetID(Context context) {
@@ -96,8 +97,9 @@ public class IDP2NativeApp {
                     InfoResponse response1 = gson.fromJson(response.body().string(), InfoResponse.class);
                     data = SecretUtil.decrypt(response1.getInfo(), response1.getAuthKey());
                     LogUtils.d(TAG, "data-->" + data);
+//                    LogUtils.e(TAG, "data-->" + getUserInfo().toString());
                     getUserInfo();
-                    startActivity();
+//                    startActivity();
                 }
             });
 //            OkHttpUtils
@@ -127,43 +129,53 @@ public class IDP2NativeApp {
 
     }
 
-    private static UserInfo getUserInfo() {
+    public static UserInfo getUserInfo() {
         if (TextUtils.isEmpty(data)) {
             return null;
         } else {
             Gson gson = new Gson();
             UserInfo userInfo = gson.fromJson(data, UserInfo.class);
+            Intent intent2 = new Intent();
+            intent2.setAction("com.idsmanager.nativeappdemo.summer.userinfo");
+            intent2.putExtra("name", userInfo.getAccount());
+            intent2.putExtra("psw", userInfo.getPassword());
+            mContext.sendBroadcast(intent2);
             return userInfo;
         }
     }
 
-    public static void startActivity() {
-        if (mActivity != null && mContext != null) {
-            Intent intent1 = new Intent(mContext, mActivity);
-            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            Bundle bundle1 = new Bundle();
-            if (getUserInfo() != null) {
-                LogUtils.d(TAG, getUserInfo().toString());
-                bundle1.putSerializable("user", getUserInfo());
-                intent1.putExtras(bundle1);
-                mContext.startActivity(intent1);
-            }
-        }
-    }
+//    public static void startActivity() {
+//        if (mActivity != null && mContext != null) {
+//            Intent intent1 = new Intent(mContext, mActivity);
+//            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            Bundle bundle1 = new Bundle();
+//            if (getUserInfo() != null) {
+//                LogUtils.d(TAG, getUserInfo().toString());
+//                bundle1.putSerializable("user", getUserInfo());
+//                intent1.putExtras(bundle1);
+//                mContext.startActivity(intent1);
+//            }
+//        }
+//    }
 
-    public static void init(Context context, Class<?> ac) {
+//    public static void init(Context context, Class<?> ac) {
+//        mContext = context;
+//        mActivity = ac;
+//    }
+
+    public static void init(Context context) {
         mContext = context;
-        mActivity = ac;
+//        mActivity = ac;
     }
 
-    public static UserInfo getUser(Activity mainActivity) {
-        Bundle bundle = mainActivity.getIntent().getExtras();
-        if (bundle != null) {
-            UserInfo info = (UserInfo) bundle.getSerializable("user");
-            if (info != null) {
-                return info;
-            }
-        }
-        return null;
-    }
+//    public static UserInfo getUser(Activity mainActivity) {
+//        Bundle bundle = mainActivity.getIntent().getExtras();
+//        if (bundle != null) {
+//            UserInfo info = (UserInfo) bundle.getSerializable("user");
+//            if (info != null) {
+//                return info;
+//            }
+//        }
+//        return null;
+//    }
 }

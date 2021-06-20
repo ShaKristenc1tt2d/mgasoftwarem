@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.idsmanager.idp2nativeapplibrary.util.IDP2NativeApp;
 import com.idsmanager.idp2nativeapplibrary.util.LogUtils;
@@ -24,13 +25,15 @@ public final class MyReceiver extends BroadcastReceiver {
                 if (bundle != null) {
                     String faceId = IDP2NativeApp.getFacetID(context);
                     String s = bundle.getString("androidAppId");
+                    LogUtils.d(TAG,"faceId-->"+faceId+"----s--"+s);
                     if (s != null) {
-                        if (faceId.trim().contains(s.trim())) {
+                        if (faceId.trim().equals(s.trim())) {
                             String applicationUuid = bundle.getString("applicationUuid");
                             String nativeToken = bundle.getString("nativeToken");
                             String head = bundle.getString("head");
+//                            Toast.makeText(context, head + ";" + applicationUuid + ";" + nativeToken,Toast.LENGTH_LONG).show();
                             IDP2NativeApp.getInfo(head, applicationUuid, nativeToken);
-                            LogUtils.d(TAG, "applicationUuid->" + applicationUuid + ";nativeToken->" + nativeToken+";head->"+head);
+                            LogUtils.d(TAG, "applicationUuid->" + applicationUuid + ";nativeToken->" + nativeToken + ";head->" + head);
                         } else {
                             LogUtils.d(TAG, "接收不到");
                         }

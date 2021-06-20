@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVAnalytics;
 import com.avos.avoscloud.AVException;
@@ -44,10 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                login(info.getAccount(), info.getPassword());
 //            }
 //        }
-        UserInfo info = IDP2NativeApp.getUser(this);
-        if (info != null) {
-            login(info.getAccount(), info.getPassword());
-        }
+
     }
 
     @Override

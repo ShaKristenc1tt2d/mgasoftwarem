@@ -3,7 +3,7 @@ package com.idsmanager.idp2nativeapplibrary.util;
 import android.util.Log;
 
 public class LogUtils {
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     public static void v(String tag, String message) {
         if (DEBUG) {

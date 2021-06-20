@@ -1,0 +1,25 @@
+Version：   V1.0
+Date：		2016/11/30
+Author： 	方歙辉
+Update		1.SDK为开发者获取用户信息
+
+一、Android studio集成idp2nativeapp1.0.jar需要注意
+1.为您的应用导包
+    compile files('libs/idp2nativeapp1.0.jar')
+    compile 'com.squareup.okhttp3:okhttp:3.3.1'
+    compile 'com.squareup.okio:okio:1.8.0'
+    compile 'com.google.code.gson:gson:2.3.1'
+2.在您的应用的AndroidManifest.xml中加
+    <receiver android:name="com.idsmanager.idp2nativeapplibrary.receive.MyReceiver">
+            <intent-filter>
+                <action android:name="com.idsmanager.enterprisetwo.summer.receiver" />
+            </intent-filter>
+    </receiver>
+3.在Application中
+    IDP2NativeApp.init(getApplicationContext(), MainActivity.class);
+    其中 MainActivity.class是您要实现免密码登录的Activity
+4.在ManiActivity中
+    UserInfo info = IDP2NativeApp.getUser(this);
+    获取用户信息
+    info.getAccount(), info.getPassword()分别对应账号和密码
+二、Eclipse开发者导入相应的jar包，除第一步不同以外，其余步骤一致
