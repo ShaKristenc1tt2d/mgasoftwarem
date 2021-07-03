@@ -15,6 +15,7 @@ import com.avos.avoscloud.SignUpCallback;
 import com.idsmanager.idp2nativeapplibrary.util.LogUtils;
 import com.idsmanager.idp2nativeapplibrary.util.ToastUtil;
 import com.idsmanager.nativeappdemo.R;
+import com.idsmanager.nativeappdemo.util.NetUtils;
 
 import org.w3c.dom.Text;
 
@@ -47,7 +48,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.btn_achieve:
-                registerUserName();
+                if (NetUtils.isNetworkAvailable(RegisterActivity.this)) {
+                    registerUserName();
+                } else {
+                    Toast.makeText(RegisterActivity.this, R.string.no_net, Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
                 break;

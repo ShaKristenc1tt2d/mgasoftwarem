@@ -30,11 +30,6 @@ public class SplashActivity extends AppCompatActivity {
 //            Log.d(TAG, "info");
 //            finish();
 //        }
-        if (TextUtils.isEmpty(UserReceiver.mUsername)){
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-            Log.d(TAG, "info");
-            finish();
-        }
 
     }
 }

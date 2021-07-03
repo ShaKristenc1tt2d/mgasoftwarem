@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVAnalytics;
@@ -18,6 +19,8 @@ import com.idsmanager.idp2nativeapplibrary.util.IDP2NativeApp;
 import com.idsmanager.idp2nativeapplibrary.util.LogUtils;
 import com.idsmanager.idp2nativeapplibrary.util.ToastUtil;
 import com.idsmanager.nativeappdemo.R;
+import com.idsmanager.nativeappdemo.util.NetUtils;
+import com.idsmanager.nativeappdemo.util.Utils;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnLogin;
     private Button btnRegister;
 
+    private TextView tvVersion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         etUserName = (EditText) findViewById(R.id.et_user_name);
         etUserPsw = (EditText) findViewById(R.id.et_user_psw);
         btnLogin = (Button) findViewById(R.id.btn_login);
+        tvVersion = (TextView) findViewById(R.id.tv_version);
         btnRegister = (Button) findViewById(R.id.btn_register);
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
@@ -45,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                login(info.getAccount(), info.getPassword());
 //            }
 //        }
+        tvVersion.setText(Utils.getVerName(MainActivity.this));
 
     }
 
@@ -59,7 +66,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ToastUtil.showToast(MainActivity.this, "用户名密码不能为空！");
                     return;
                 }
-                login(username, userPsw);
+                if (NetUtils.isNetworkAvailable(MainActivity.this)) {
+                    login(username, userPsw);
+                } else {
+                    Toast.makeText(MainActivity.this, R.string.no_net, Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btn_register:
                 startActivity(new Intent(this, RegisterActivity.class));
@@ -77,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void done(AVUser avUser, AVException e) {
                 if (e != null) {
                     LogUtils.d(TAG, e.getMessage());
+                    ToastUtil.showToast(MainActivity.this, "用户名或密码错误！");
                 } else {
                     LogUtils.d(TAG, "登录成功 user：" + avUser.toString());
                     ToastUtil.showToast(MainActivity.this, "登录成功！");

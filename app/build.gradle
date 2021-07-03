@@ -9,7 +9,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
-        versionName "V1.0.1"
+        versionName "Version 1.0.3"
     }
     buildTypes {
         release {
@@ -36,4 +36,5 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.3.1'
     compile 'com.squareup.okio:okio:1.8.0'
     compile 'com.google.code.gson:gson:2.3.1'
+    compile project(':idp2nativeapplibrary')
 }
