@@ -14,11 +14,13 @@ import com.avos.avoscloud.AVAnalytics;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.LogInCallback;
+import com.google.gson.Gson;
 import com.idsmanager.idp2nativeapplibrary.response.UserInfo;
 import com.idsmanager.idp2nativeapplibrary.util.IDP2NativeApp;
 import com.idsmanager.idp2nativeapplibrary.util.LogUtils;
 import com.idsmanager.idp2nativeapplibrary.util.ToastUtil;
 import com.idsmanager.nativeappdemo.R;
+import com.idsmanager.nativeappdemo.response.LoginBean;
 import com.idsmanager.nativeappdemo.util.NetUtils;
 import com.idsmanager.nativeappdemo.util.Utils;
 
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnRegister;
 
     private TextView tvVersion;
+//    private boolean where;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnRegister = (Button) findViewById(R.id.btn_register);
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
-//        Bundle bundle = getIntent().getExtras();
+
+//        where = getIntent().getBooleanExtra("where", false);
+//        if (where) {
+//            if (NetUtils.isNetworkAvailable(MainActivity.this)) {
+//                String username = getIntent().getStringExtra("username");
+//                String userPsw = getIntent().getStringExtra("psw");
+//                login(username, userPsw);
+//            } else {
+//                Toast.makeText(MainActivity.this, R.string.no_net, Toast.LENGTH_SHORT).show();
+//            }
+//        } else {
+//
+//        }
+        //        Bundle bundle = getIntent().getExtras();
 //        if (bundle != null) {
 //            UserInfo info = (UserInfo) bundle.getSerializable("user");
 //            if (info != null) {
@@ -87,8 +103,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void done(AVUser avUser, AVException e) {
                 if (e != null) {
-                    LogUtils.d(TAG, e.getMessage());
-                    ToastUtil.showToast(MainActivity.this, "用户名或密码错误！");
+                    Gson gson = new Gson();
+                    LoginBean result = gson.fromJson(e.getMessage(), LoginBean.class);
+                    if (result.getCode() == 210) {
+                        ToastUtil.showToast(MainActivity.this, "用户名或密码错误！");
+                    } else if (result.getCode() == 211) {
+                        ToastUtil.showToast(MainActivity.this, "登录失败！用户名还未被注册！");
+                    }
                 } else {
                     LogUtils.d(TAG, "登录成功 user：" + avUser.toString());
                     ToastUtil.showToast(MainActivity.this, "登录成功！");

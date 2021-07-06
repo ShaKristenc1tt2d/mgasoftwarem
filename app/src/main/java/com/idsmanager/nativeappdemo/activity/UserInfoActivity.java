@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVUser;
 import com.idsmanager.nativeappdemo.R;
 
 public class UserInfoActivity extends AppCompatActivity {
@@ -25,6 +26,7 @@ public class UserInfoActivity extends AppCompatActivity {
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AVUser.logOut();
                 finish();
             }
         });
