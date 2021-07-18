@@ -56,6 +56,19 @@ libs:
             </intent-filter>
 
     </receiver>
+
+UserReceiver这个广播接收器是创建的项目中需要自己写得，用来接收用户信息，看demo中的UserReceiver
+
+    <receiver android:name=".receive.UserReceiver">
+
+            <intent-filter>
+
+                <action android:name="com.idsmanager.nativeappdemo.summer.userinfo" />
+
+            </intent-filter>
+
+        </receiver>
+
 ####3.在Application中
 
    #####1） IDP2NativeApp.init(getApplicationContext(), MainActivity.class);
