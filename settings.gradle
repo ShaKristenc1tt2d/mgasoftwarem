@@ -1,1 +1,1 @@
-include ':app', ':idp2nativeapplibrary'
+include ':app'
