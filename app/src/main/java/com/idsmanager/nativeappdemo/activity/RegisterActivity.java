@@ -1,5 +1,6 @@
 package com.idsmanager.nativeappdemo.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import com.avos.avoscloud.SignUpCallback;
 import com.idsmanager.idp2nativeapplibrary.util.LogUtils;
 import com.idsmanager.idp2nativeapplibrary.util.ToastUtil;
 import com.idsmanager.nativeappdemo.R;
+import com.idsmanager.nativeappdemo.util.AppActivities;
 import com.idsmanager.nativeappdemo.util.NetUtils;
 
 import org.w3c.dom.Text;
@@ -31,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        AppActivities.addActivity(this);
         etUserName = (EditText) findViewById(R.id.et_user_name);
         etUserPsw = (EditText) findViewById(R.id.et_user_psw);
         etUserPsw2 = (EditText) findViewById(R.id.et_user_psw_re);
@@ -61,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void registerUserName() {
-        String username = etUserName.getText().toString().trim();
+        final String username = etUserName.getText().toString().trim();
         String userPsw = etUserPsw.getText().toString().trim();
         String userPsw2 = etUserPsw2.getText().toString().trim();
         if (TextUtils.isEmpty(username)) {
@@ -91,7 +94,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 etUserPsw.setText("");
                 etUserPsw2.setText("");
                 ToastUtil.showToast(RegisterActivity.this, "注册成功！请记住用户名和密码");
-                LogUtils.d(TAG, "注册成功 uesr:" + user);
+                Intent intent = new Intent(RegisterActivity.this, UserInfoActivity.class);
+                intent.putExtra("username", username);
+                startActivity(intent);
             }
         });
     }

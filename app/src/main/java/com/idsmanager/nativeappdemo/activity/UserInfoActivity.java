@@ -1,5 +1,6 @@
 package com.idsmanager.nativeappdemo.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 
 import com.avos.avoscloud.AVUser;
 import com.idsmanager.nativeappdemo.R;
+import com.idsmanager.nativeappdemo.util.AppActivities;
 
 public class UserInfoActivity extends AppCompatActivity {
     private static final String TAG = "UserInfoActivity";
@@ -19,6 +21,8 @@ public class UserInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+        AppActivities.finishAll();
+        AppActivities.addActivity(this);
         username = getIntent().getStringExtra("username");
         tvCancel = (TextView) findViewById(R.id.tv_cancel);
         tvUserName = (TextView) findViewById(R.id.tv_user_name);
@@ -27,6 +31,7 @@ public class UserInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AVUser.logOut();
+                startActivity(new Intent(UserInfoActivity.this, MainActivity.class));
                 finish();
             }
         });

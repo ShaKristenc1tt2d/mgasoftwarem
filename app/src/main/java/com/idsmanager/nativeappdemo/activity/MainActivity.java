@@ -1,6 +1,8 @@
 package com.idsmanager.nativeappdemo.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -21,6 +23,7 @@ import com.idsmanager.idp2nativeapplibrary.util.LogUtils;
 import com.idsmanager.idp2nativeapplibrary.util.ToastUtil;
 import com.idsmanager.nativeappdemo.R;
 import com.idsmanager.nativeappdemo.response.LoginBean;
+import com.idsmanager.nativeappdemo.util.AppActivities;
 import com.idsmanager.nativeappdemo.util.NetUtils;
 import com.idsmanager.nativeappdemo.util.Utils;
 
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AppActivities.finishAll();
+        AppActivities.addActivity(this);
         AVAnalytics.trackAppOpened(getIntent());
         etUserName = (EditText) findViewById(R.id.et_user_name);
         etUserPsw = (EditText) findViewById(R.id.et_user_psw);
@@ -47,28 +52,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnRegister = (Button) findViewById(R.id.btn_register);
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
-
-//        where = getIntent().getBooleanExtra("where", false);
-//        if (where) {
-//            if (NetUtils.isNetworkAvailable(MainActivity.this)) {
-//                String username = getIntent().getStringExtra("username");
-//                String userPsw = getIntent().getStringExtra("psw");
-//                login(username, userPsw);
-//            } else {
-//                Toast.makeText(MainActivity.this, R.string.no_net, Toast.LENGTH_SHORT).show();
-//            }
-//        } else {
-//
-//        }
-        //        Bundle bundle = getIntent().getExtras();
-//        if (bundle != null) {
-//            UserInfo info = (UserInfo) bundle.getSerializable("user");
-//            if (info != null) {
-//                login(info.getAccount(), info.getPassword());
-//            }
-//        }
         tvVersion.setText(Utils.getVerName(MainActivity.this));
+        getData(getIntent());
+    }
 
+    private void getData(Intent intent) {
+        if (intent !=null) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String applicationUuid = uri.getQueryParameter("applicationUuid");
+                String nativeToken = uri.getQueryParameter("nativeToken");
+                String head = uri.getQueryParameter("head");
+                if(!TextUtils.isEmpty(applicationUuid)||!TextUtils.isEmpty(nativeToken)||!TextUtils.isEmpty(head)){
+                    IDP2NativeApp.getInfo(head, applicationUuid, nativeToken);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        getData(intent);
     }
 
     @Override
