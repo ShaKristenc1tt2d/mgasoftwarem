@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnRegister;
 
     private TextView tvVersion;
-//    private boolean where;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String nativeToken = uri.getQueryParameter("nativeToken");
                 String head = uri.getQueryParameter("head");
                 if(!TextUtils.isEmpty(applicationUuid)||!TextUtils.isEmpty(nativeToken)||!TextUtils.isEmpty(head)){
+                    //接收数据，进行获取账号密码
                     IDP2NativeApp.getInfo(head, applicationUuid, nativeToken);
                 }
             }
