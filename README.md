@@ -72,9 +72,7 @@ UserReceiver这个广播接收器是创建的项目中需要自己写得，用�
 ####3.在Application中
 
    1） IDP2NativeApp.init(getApplicationContext(), MainActivity.class);
-
     其中 MainActivity.class是您要实现免密码登录的Activity
-
    2） IDP2NativeApp.getFacetID(mContext)获取URL Schemes，该项代表着在app之间跳转的唯一标识，在之后的网页上的步骤中会需要填写。这行代码的目的只是为了获取URL Scheme，获取后可以删除，和SDK的集成逻辑无关。
 
 ####4.在ManiActivity中
