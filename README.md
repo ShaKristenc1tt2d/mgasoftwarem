@@ -48,16 +48,16 @@ libs:
 ####2.在您的应用的AndroidManifest.xml中加
 
 ```
-  <intent-filter>
-       <action android:name="android.intent.action.VIEW" />
-       <category android:name="android.intent.category.DEFAULT" />
-       <category android:name="android.intent.category.BROWSABLE" />
-       <!--请保持和服务端配置相同
-          scheme为长度不超过12位的英文字母组成的字符串-->
-       <data
-           android:host="NativeApp"
-           android:scheme="自定义" />
-      </intent-filter>
+<intent-filter>
+   <action android:name="android.intent.action.VIEW" />
+   <category android:name="android.intent.category.DEFAULT" />
+   <category android:name="android.intent.category.BROWSABLE" />
+   <!--请保持和服务端配置相同
+       scheme为长度不超过12位的英文字母组成的字符串-->
+   <data
+       android:host="NativeApp"
+       android:scheme="自定义" />
+</intent-filter>
 ```
 
 UserReceiver这个广播接收器是创建的项目中需要自己写得，用来接收用户信息，看demo中的UserReceiver
