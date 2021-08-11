@@ -46,7 +46,15 @@ libs:
     compile 'com.google.code.gson:gson:2.3.1'
 
 ####2.在您的应用的AndroidManifest.xml中加
-
+申请访问网络权限
+```
+<uses-permission android:name="android.permission.INTERNET" />
+```
+设置启动Acitivity的启动模式
+```
+android:launchMode="singleTask"
+```
+在要启动的Activity中添加一个过滤器，用于和IDP身份管家进行交互，数据传递。android：scheme的值为Android Scheme URL，请和服务器端保持一致。
 ```
 <intent-filter>
    <action android:name="android.intent.action.VIEW" />
