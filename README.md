@@ -80,19 +80,43 @@ UserReceiver这个广播接收器是创建的项目中需要自己写得，用�
 
         </receiver>
 
-####3.在Application中
+####3.在Application中，初始化SDK
+```
+IDP2NativeApp.init(getApplicationContext());
 
-   1） IDP2NativeApp.init(getApplicationContext(), MainActivity.class);
-    其中 MainActivity.class是您要实现免密码登录的Activity
-   2） IDP2NativeApp.getFacetID(mContext)获取URL Schemes，该项代表着在app之间跳转的唯一标识，在之后的网页上的步骤中会需要填写。这行代码的目的只是为了获取URL Scheme，获取后可以删除，和SDK的集成逻辑无关。
+```
+####4.在启动Activity中接收数据
+1）在onCreate方法中接收。（APP无任何后台进程时接收数据）
+ ```
+getData(getIntent());
+```
+2）在onNewIntent方法中接收。（APP在后台打开时接收数据）
+```
+@Override
+protected void onNewIntent(Intent intent) {
+   super.onNewIntent(intent);
+   setIntent(intent);
+   getData(intent);
+}
+```
+3）接收数据方法，处理数据
+```
+ private void getData(Intent intent) {
+        if (intent !=null) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String applicationUuid = uri.getQueryParameter("applicationUuid");
+                String nativeToken = uri.getQueryParameter("nativeToken");
+                String head = uri.getQueryParameter("head");
+                if(!TextUtils.isEmpty(applicationUuid)||!TextUtils.isEmpty(nativeToken)||!TextUtils.isEmpty(head)){
+                    //接收数据，进行获取账号密码
+                    IDP2NativeApp.getInfo(head, applicationUuid, nativeToken);
+                }
+            }
+        }
+    }
 
-####4.在ManiActivity中
-
-    其中 MainActivity.class是您要实现免密码登录的Activity
-    UserInfo info = IDP2NativeApp.getUser(this);
-    获取用户信息
-    info.getAccount(), info.getPassword()分别对应账号和密码
-
+```
 注意：Eclipse开发者导入相应的jar包，除第一步不同以外，其余步骤一致
 ###四、IDP单点登录设置
 
