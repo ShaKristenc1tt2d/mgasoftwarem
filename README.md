@@ -139,8 +139,7 @@ IDP(Identity Provider)产品市场名称为：IDP身份管家，支持iOS和Andr
 
 所属领域：请根据情况选择最合适的，这里的选项不会影响到应用的实现
 iOS/Android Scheme URL
-Android的Scheme Url填写请参考AndroidManifest中配置的android:scheme的值，请保持和客户端一致。
- **注意：如果这里填写debug运行的FaceID,正式发布时要改为正式签名后apk生成的faceID** 
+Android Scheme Url填写请参考AndroidManifest中配置的android:scheme的值，请保持和客户端一致。
 账号关联方式：这里选择您希望通过什么方式从IDP身份管家把用户的身份信息传递给你的应用，我们目前只支持账号密码的方式，以后会提供基于OIDC或OAuth的token方式。
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/1223/162044_774f4a0e_1034121.png "在这里输入图片标题")
 
