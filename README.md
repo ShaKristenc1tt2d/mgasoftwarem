@@ -10,7 +10,7 @@ DOC    -集成文档
 SDK版本号 1.0.0
 
 ###一、介绍
-北京九州云腾科技有限公司的IDP产品的口号是统一身份、安全便捷，而IDP单点登录iOS SDK能够实现IDP身份管家到第三方开发者应用的身份管理和单点登录。
+北京九州云腾科技有限公司的IDP产品的口号是统一身份、安全便捷，而IDP单点登录Android SDK能够实现IDP身份管家到第三方开发者应用的身份管理和单点登录。
 
 
 如果对于IDP不熟悉的话，可以联系我们info@idsmanager.com，或者去我们公司的网站http://www.idsmanager.com 了解详细。IDP产品针对的是企业级用户，单点登录SDK针对的也即企业内部开发者。IDP系统能够很安全便捷地统一管理企业人员在内部应用中的账号信息。
@@ -46,16 +46,27 @@ libs:
     compile 'com.google.code.gson:gson:2.3.1'
 
 ####2.在您的应用的AndroidManifest.xml中加
-
-    <receiver android:name="com.idsmanager.idp2nativeapplibrary.receive.MyReceiver">
-
-            <intent-filter>
-
-                <action android:name="com.idsmanager.enterprisetwo.summer.receiver" />
-
-            </intent-filter>
-
-    </receiver>
+申请访问网络权限
+```
+<uses-permission android:name="android.permission.INTERNET" />
+```
+设置启动Acitivity的启动模式
+```
+android:launchMode="singleTask"
+```
+在要启动的Activity中添加一个过滤器，用于和IDP身份管家进行交互，数据传递。android：scheme的值为Android Scheme URL，请和服务器端保持一致。
+```
+<intent-filter>
+   <action android:name="android.intent.action.VIEW" />
+   <category android:name="android.intent.category.DEFAULT" />
+   <category android:name="android.intent.category.BROWSABLE" />
+   <!--请保持和服务端配置相同
+       scheme为长度不超过12位的英文字母组成的字符串-->
+   <data
+       android:host="NativeApp"
+       android:scheme="自定义" />
+</intent-filter>
+```
 
 UserReceiver这个广播接收器是创建的项目中需要自己写得，用来接收用户信息，看demo中的UserReceiver
 
@@ -69,19 +80,43 @@ UserReceiver这个广播接收器是创建的项目中需要自己写得，用�
 
         </receiver>
 
-####3.在Application中
+####3.在Application中，初始化SDK
+```
+IDP2NativeApp.init(getApplicationContext());
 
-   #####1） IDP2NativeApp.init(getApplicationContext(), MainActivity.class);
-    其中 MainActivity.class是您要实现免密码登录的Activity
-   #####2） IDP2NativeApp.getFacetID(mContext)获取URL Schemes，该项代表着在app之间跳转的唯一标识，在之后的网页上的步骤中会需要填写。这行代码的目的只是为了获取URL Scheme，获取后可以删除，和SDK的集成逻辑无关。
+```
+####4.在启动Activity中接收数据
+1）在onCreate方法中接收。（APP无任何后台进程时接收数据）
+ ```
+getData(getIntent());
+```
+2）在onNewIntent方法中接收。（APP在后台打开时接收数据）
+```
+@Override
+protected void onNewIntent(Intent intent) {
+   super.onNewIntent(intent);
+   setIntent(intent);
+   getData(intent);
+}
+```
+3）接收数据方法，处理数据
+```
+ private void getData(Intent intent) {
+        if (intent !=null) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String applicationUuid = uri.getQueryParameter("applicationUuid");
+                String nativeToken = uri.getQueryParameter("nativeToken");
+                String head = uri.getQueryParameter("head");
+                if(!TextUtils.isEmpty(applicationUuid)||!TextUtils.isEmpty(nativeToken)||!TextUtils.isEmpty(head)){
+                    //接收数据，进行获取账号密码
+                    IDP2NativeApp.getInfo(head, applicationUuid, nativeToken);
+                }
+            }
+        }
+    }
 
-####4.在ManiActivity中
-
-    其中 MainActivity.class是您要实现免密码登录的Activity
-    UserInfo info = IDP2NativeApp.getUser(this);
-    获取用户信息
-    info.getAccount(), info.getPassword()分别对应账号和密码
-
+```
 注意：Eclipse开发者导入相应的jar包，除第一步不同以外，其余步骤一致
 ###四、IDP单点登录设置
 
@@ -104,8 +139,7 @@ IDP(Identity Provider)产品市场名称为：IDP身份管家，支持iOS和Andr
 
 所属领域：请根据情况选择最合适的，这里的选项不会影响到应用的实现
 iOS/Android Scheme URL
-Android的Scheme Url填写您在前一节中通过 IDP2NativeApp.getFaceID(mContext)创建的URL Scheme
- **注意：如果这里填写debug运行的FaceID,正式发布时要改为正式签名后apk生成的faceID** 
+Android Scheme Url填写请参考AndroidManifest中配置的android:scheme的值，请保持和客户端一致。
 账号关联方式：这里选择您希望通过什么方式从IDP身份管家把用户的身份信息传递给你的应用，我们目前只支持账号密码的方式，以后会提供基于OIDC或OAuth的token方式。
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/1223/162044_774f4a0e_1034121.png "在这里输入图片标题")
 
