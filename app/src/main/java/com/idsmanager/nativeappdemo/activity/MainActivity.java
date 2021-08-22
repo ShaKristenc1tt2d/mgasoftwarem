@@ -62,9 +62,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String applicationUuid = uri.getQueryParameter("applicationUuid");
                 String nativeToken = uri.getQueryParameter("nativeToken");
                 String head = uri.getQueryParameter("head");
-                if(!TextUtils.isEmpty(applicationUuid)||!TextUtils.isEmpty(nativeToken)||!TextUtils.isEmpty(head)){
+                if(!TextUtils.isEmpty(applicationUuid)&&!TextUtils.isEmpty(nativeToken)&&!TextUtils.isEmpty(head)){
                     //接收数据，进行获取账号密码
                     IDP2NativeApp.getInfo(head, applicationUuid, nativeToken);
+                }else {
+                    login("hui", "hui");
                 }
             }
         }
