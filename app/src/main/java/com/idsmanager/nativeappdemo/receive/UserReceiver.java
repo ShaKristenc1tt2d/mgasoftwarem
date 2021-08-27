@@ -33,15 +33,20 @@ public class UserReceiver extends BroadcastReceiver {
                 String username = bundle.getString("name");
                 String psw = bundle.getString("psw");
                 LogUtils.d(TAG, "name->" + username + ";psw->" + psw);
-                if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(psw)) {
-                    //判断用户是否存在
-                    login(username, psw, context);
+                int errorCode = bundle.getInt("errorCode");
+                Log.d(TAG, "errorCode-" + errorCode);
+                if (errorCode == 0) {
+                    if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(psw)) {
+                        //判断用户是否存在
+                        login(username, psw, context);
+                    } else {
+                        Intent in = new Intent(context, MainActivity.class);
+                        in.putExtra("where", false);
+                        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(in);
+                        Log.d(TAG, "info:idp2中的用户名和密码没有收到！");
+                    }
                 } else {
-                    Intent in = new Intent(context, MainActivity.class);
-                    in.putExtra("where", false);
-                    in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(in);
-                    Log.d(TAG, "info:idp2中的用户名和密码没有收到！");
                 }
             }
         }
